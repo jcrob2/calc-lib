@@ -1,25 +1,23 @@
 package main
 
-import "github.com/jcrob2/calc-lib/calc"
-import "os"
-import "fmt"
-import "strconv"
+import (
+	"github.com/jcrob2/calc-lib/calc"
+	handler2 "github.com/jcrob2/calc-lib/calc_handler"
+	"log"
+	"os"
+)
 
 func main() {
-	a, err := strconv.Atoi(os.Args[1])
-
-	if err != nil {
-		panic(err)
-	}
-
-	b, err := strconv.Atoi(os.Args[2])
-
-	if err != nil {
-		panic(err)
-	}
 
 	var calculator calc.Calculator = calc.Addition{}
 
-	result := calculator.Calculate(a, b)
-	fmt.Printf("%d + %d = %d", a, b, result)
+	o := os.Stdout
+	i := os.Args
+
+	var handler handler2.Handler = handler2.Bridge{W: o, C: calculator}
+	err := handler.Handle(i)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
