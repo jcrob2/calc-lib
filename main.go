@@ -14,7 +14,7 @@ func main() {
 	o := os.Stdout
 	i := os.Args
 
-	var handler handler2.Handler = handler2.Bridge{W: o, C: calculator}
+	var handler handler2.Handler = handler2.BridgeConstructor(o, calculator)
 	err := handler.Handle(i)
 
 	if err != nil {

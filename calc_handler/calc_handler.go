@@ -8,6 +8,10 @@ import (
 	"strconv"
 )
 
+func BridgeConstructor(w io.Writer, c calc.Calculator) Bridge {
+	return Bridge{W: w, C: c}
+}
+
 type Handler interface {
 	Handle(r []string) error
 }
@@ -29,7 +33,7 @@ func (br Bridge) Handle(r []string) error {
 		return err
 	}
 
-	result := C.Calculate(a, b)
+	result := br.C.Calculate(a, b)
 	_, err = fmt.Fprintf(br.W, "%d + %d = %d", a, b, result)
 	if err != nil {
 		return err
