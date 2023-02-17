@@ -2,6 +2,7 @@ package calc_handler
 
 import "C"
 import (
+	"errors"
 	"fmt"
 	"github.com/jcrob2/calc-lib/calc"
 	"io"
@@ -23,14 +24,13 @@ type Bridge struct {
 
 func (br Bridge) Handle(r []string) error {
 	a, err := strconv.Atoi(r[1])
-
 	if err != nil {
-		return err
+		return fmt.Errorf("%w:%s", invalidArgumentError, err.Error())
 	}
 
 	b, err := strconv.Atoi(r[2])
 	if err != nil {
-		return err
+		return fmt.Errorf("%w:%s", invalidArgumentError, err.Error())
 	}
 
 	result := br.C.Calculate(a, b)
@@ -41,3 +41,5 @@ func (br Bridge) Handle(r []string) error {
 
 	return nil
 }
+
+var invalidArgumentError = errors.New("invalid argument")
